@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:udemy_008_favorite_chat_app/screens/auth.dart';
 import 'package:udemy_008_favorite_chat_app/screens/chat.dart';
+import 'package:udemy_008_favorite_chat_app/screens/slpash.dart';
 
 void main() {
   runApp(const App());
@@ -21,6 +22,10 @@ class App extends StatelessWidget {
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+
           if (snapshot.hasData) {
             return const ChatScreen();
           }
