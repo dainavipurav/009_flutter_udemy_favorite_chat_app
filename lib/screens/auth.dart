@@ -10,14 +10,15 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _form = GlobalKey<FormState>();
   bool _isLogin = true;
-  String enteredEmail = '';
-  String enteredPassword = '';
+  String _enteredEmail = '';
+  String _enteredPassword = '';
 
   void _submit() {
     final isValid = _form.currentState!.validate();
     if (isValid) {
-      print(enteredEmail);
-      print(enteredPassword);
+      _form.currentState!.save();
+      print(_enteredEmail);
+      print(_enteredPassword);
     }
   }
 
@@ -65,6 +66,9 @@ class _AuthScreenState extends State<AuthScreen> {
                           }
                           return null;
                         },
+                        onSaved: (newValue) {
+                          _enteredEmail = newValue!;
+                        },
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -77,6 +81,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             return 'Password should be minimum 6 characters';
                           }
                           return null;
+                        },
+                        onSaved: (newValue) {
+                          _enteredPassword = newValue!;
                         },
                       ),
                       const SizedBox(height: 12),
