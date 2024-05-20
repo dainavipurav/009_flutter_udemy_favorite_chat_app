@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:udemy_008_favorite_chat_app/screens/auth.dart';
+import 'package:udemy_008_favorite_chat_app/screens/chat.dart';
 
 void main() {
   runApp(const App());
@@ -16,7 +18,16 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 63, 17, 177)),
       ),
-      home: const AuthScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const ChatScreen();
+          }
+
+          return const AuthScreen();
+        },
+      ),
     );
   }
 }
