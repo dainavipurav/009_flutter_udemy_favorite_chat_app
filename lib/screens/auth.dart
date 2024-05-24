@@ -19,6 +19,7 @@ class _AuthScreenState extends State<AuthScreen> {
   String _enteredEmail = '';
   String _enteredPassword = '';
   File? _selectedImage;
+  bool _isAuthenticating = false;
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -27,6 +28,10 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     _form.currentState!.save();
+
+    setState(() {
+      _isAuthenticating = true;
+    });
 
     try {
       if (_isLogin) {
@@ -45,7 +50,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
         print(userCredentials);
       }
+      setState(() {
+        _isAuthenticating = false;
+      });
     } on FirebaseAuthException catch (error) {
+      setState(() {
+        _isAuthenticating = false;
+      });
       if (error.code == 'email-already-in-use') {
         // ...
       }
@@ -133,14 +144,20 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       const SizedBox(height: 12),
                       ElevatedButton(
-                        onPressed: _submit,
+                        onPressed: _isAuthenticating ? null : _submit,
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
                               Theme.of(context).colorScheme.primaryContainer,
                         ),
-                        child: Text(
-                          _isLogin ? 'Login' : 'Sign Up',
-                        ),
+                        child: _isAuthenticating
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(),
+                              )
+                            : Text(
+                                _isLogin ? 'Login' : 'Sign Up',
+                              ),
                       ),
                       TextButton(
                         onPressed: () {
