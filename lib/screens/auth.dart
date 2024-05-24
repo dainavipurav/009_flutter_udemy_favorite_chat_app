@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:udemy_008_favorite_chat_app/widgets/user_image_picker.dart';
+
+import '../widgets/user_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -53,7 +54,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
         final storageRef = FirebaseStorage.instance
             .ref()
-            .child('user_images')
+            .child('userImages')
             .child('${userCredentials.user!.uid}.jpg');
 
         await storageRef.putFile(_selectedImage!);
@@ -66,7 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .set({
           'username': _enteredUserName,
           'email': _enteredEmail,
-          'image_url': imgUrl,
+          'imageUrl': imgUrl,
         });
       }
       setState(() {

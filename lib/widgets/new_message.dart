@@ -36,7 +36,7 @@ class _NewMessageState extends State<NewMessage> {
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'username': userData.data()!['username'],
-      'user_image': userData.data()!['image_url'],
+      'userImage': userData.data()!['imageUrl'],
     });
 
     // Send to firebase
